@@ -12,6 +12,10 @@ function clean(v: unknown, max: number): string | null {
 }
 
 export async function POST(req: Request) {
+  if (!db) {
+    return Response.json({ ok: false, error: "Database not configured" }, { status: 503 });
+  }
+
   try {
     const body = (await req.json()) as Record<string, unknown>;
     const kind = clean(body.kind, 20);
